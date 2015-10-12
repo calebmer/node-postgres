@@ -60,6 +60,15 @@ test('initializing from a config string', function() {
     assert.equal(client.port, process.env['PGPORT'] || 5432);
     assert.equal(client.database, process.env['PGDATABASE'] || process.env.USER);
   });
+  
+  test('uses the string in the `connection` property', function() {
+    var client = new Client({ connection: "postgres://brian:pass@host1:333/databasename" })
+    assert.equal(client.user, 'brian');
+    assert.equal(client.password, "pass");
+    assert.equal(client.host, "host1");
+    assert.equal(client.port, 333);
+    assert.equal(client.database, "databasename");
+  });
 
   test('when not including all values the environment variables are used', function() {
     var envUserDefined = process.env['PGUSER'] !== undefined;
